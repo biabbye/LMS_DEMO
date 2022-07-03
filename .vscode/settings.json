@@ -1,0 +1,6 @@
+{
+    "python.analysis.extraPaths": [
+        "./CODE_FOLDER",
+        "./assignmentCodes/628bc5565151a55778b08640"
+    ]
+}

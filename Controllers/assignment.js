@@ -1,23 +1,20 @@
 const Assignment = require('../Models/Assignment');
+const fs = require('fs');
 
 exports.create = async (req,res) => {
     
-	
+	const assignmentFile = req.body.assignmentData.assignmentFile;
     const assignmentName = req.body.assignmentData.assignmentName;
 	const assignmentDescription = req.body.assignmentData.assignmentDescription;
 	const assignmentGroup = req.body.assignmentData.assignmentGroup;
 
-	
-	
     try {
         let newAssignment = new Assignment();
 
-	
+		newAssignment.assignmentFile = assignmentFile;
 		newAssignment.assignmentName = assignmentName;
 		newAssignment.assignmentDescription = assignmentDescription;
 		newAssignment.assignmentGroup = assignmentGroup;
-
-		
 
 		await newAssignment.save();
 
@@ -35,9 +32,6 @@ exports.create = async (req,res) => {
 
 exports.readAll = async (req,res) => {
     
-    // const assignmentName = req.body.assignmentData.assignmentName;
-	// const assignmentDescription = req.body.assignmentData.assignmentDescription;
-	// const assignmentGroup = req.body.assignmentData.assignmentGroup;
 	
     try {
        const assignments = await Assignment.find({}).populate('assignmentGroup', 'group');
@@ -50,3 +44,50 @@ exports.readAll = async (req,res) => {
 		});
     }
 }
+
+exports.readOne = async (req, res) => {
+	try {
+		
+		const assignmentId = req.params.assignmentId;
+		const assignment = await Assignment.findById(assignmentId);
+
+		res.json(assignment);
+	} catch (err) {
+		console.log(err, 'assignmentController.read error');
+		res.status(500).json({
+			errorMessage: 'Please try again later',
+		});
+	}
+};
+
+exports.delete = async (req, res) => {
+	try {
+		const assignmentId = req.params.assignmentId;
+		const deletedAssignment = await Assignment.findByIdAndDelete(assignmentId);
+
+		res.json(deletedAssignment);
+	} catch (err) {
+		console.log(err, 'assignmentController.delete error');
+		res.status(500).json({
+			errorMessage: 'Please try again later',
+		});
+	}
+};
+
+// exports.run = async (req, res) => {
+// 	const {language = "cpp", code} = req.body;
+
+// 	if(code=== undefined){
+// 		return res.status(400).json({ success: false, error: "Empty code body"});
+// 	}
+	
+// 	try {
+// 		// need to generate a c++ file with content from the request
+// 		const filepath = await generateFile(language,code);
+// 		//and run the file and send the response
+// 		const output = await executeCpp(filepath);
+// 		return res.json({filepath,output})
+// 	} catch (error) {
+// 		res.status(500).json({error});
+// 	}
+// };

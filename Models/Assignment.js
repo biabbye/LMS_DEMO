@@ -3,6 +3,9 @@ const {ObjectId} = mongoose.Schema;
 
 const AssignmentSchema = new mongoose.Schema(
     {
+        assignmentFile: {
+            type: 'String',
+        },
         assignmentName: {
             type: String,
           

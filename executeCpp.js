@@ -1,4 +1,4 @@
-const { exec} = require("child_process");
+const { exec } = require("child_process");
 const fs = require('fs');
 const path = require('path');
 
@@ -12,17 +12,13 @@ if(!fs.existsSync(outputPath)){
 
 const executeCpp = (filepath) => {
 
-    const jobId = path.basename(filepath).replace().split(".")[0];
+    const jobId = path.basename(filepath).split(".")[0];
     const outPath = path.join(outputPath, `${jobId}.exe`);
     const promise = new Promise(function (resolve,reject) {
         
-        exec(`g++ ${filepath} -o ${outPath} && cd ${outputPath} && .\${jobId}.exe`, (error,stdout,stderr) => {
-            if(error){
-                reject({error,stderr});
-            }
-            if(stderr) {
-                reject(stderr);
-            }
+        exec(`g++ ${filepath} -o ${outPath} && cd ${outputPath} && .\\${jobId}.exe`, (error,stdout,stderr) => {
+            error && reject({error,stderr});
+            stderr && reject(stderr);
             resolve(stdout);
         });
     });
