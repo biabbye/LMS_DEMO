@@ -1,0 +1,25 @@
+.readOnly {
+    background-color: #cccccc;
+}
+
+.float-container {
+    border: 3px solid #fff;
+    padding: 20px;
+    justify-content: center;
+}
+
+.compiler {
+    width: 50%;
+    float:left;
+    padding:20px;
+}
+
+
+.output {
+  float: right;
+  margin-right: 350px;
+}
+.upBar {
+    margin-bottom: 20px;
+}
+
